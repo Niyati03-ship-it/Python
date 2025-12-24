@@ -22,11 +22,11 @@ def add_student():
         if 0 <= marks <= 100:
             grade = calculate_grade(marks)
             students.append({'name': name, 'marks': marks, 'grade': grade})
-            print("Student added successfully!\n")
+            print("Student added successfully!")
         else:
-            print("Invalid marks! Must be between 0 and 100.\n")
+            print("Invalid marks! Must be between 0 and 100.")
     except ValueError:
-        print("Please enter valid numeric marks.\n")
+        print("Please enter valid numeric marks.")
 
 
 def display_students():
