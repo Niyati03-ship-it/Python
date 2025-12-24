@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 orders = []
-DEFAULT_GST = 5
+GST = 5
 
 def add_order():
     name = e_name.get()
@@ -107,7 +107,7 @@ e_parts.pack()
 
 tk.Label(root, text="GST (%)").pack()
 e_gst = tk.Entry(root)
-e_gst.insert(0, str(DEFAULT_GST))
+e_gst.insert(0, str(GST))
 e_gst.pack()
 
 tk.Label(root, text="Discount").pack()
