@@ -60,10 +60,10 @@ Issue    : {order['issue']}
 
 Repair Fee : {repair_fee}
 Parts Cost : {parts_cost}
-GST%  : {tax:.2f}
+GST%  : {tax}
 Discount  : {discount}
 
-Total     : {total:.2f}
+Total     : {total}
 """
 
     messagebox.showinfo("Invoice", bill)
