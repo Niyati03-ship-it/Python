@@ -1,119 +1,97 @@
-import tkinter as tk
-from tkinter import messagebox
+orders = []   
 
-orders = []
-GST = 5
+TAX_RATE = 0.18   
 
-def add_order():
-    name = e_name.get()
-    device = e_device.get()
-    issue = e_issue.get()
-    due = e_due.get()
 
-    if name == "" or device == "" or issue == "" or due == "":
-        messagebox.showerror("Error", "All fields required")
-        return
+def book_repair():
+
+    customer_name = input("Enter customer name: ")
+    device_type = input("Enter device type: ")
+    issue = input("Enter issue description: ")
+    due_date = input("Enter due date: ")
 
     order = {
-        "name": name,
-        "device": device,
+        "customer": customer_name,
+        "device": device_type,
         "issue": issue,
-        "due": due
+        "due_date": due_date,
+        "status": "Pending"
     }
 
     orders.append(order)
-    listbox.insert(tk.END, name + " - " + device)
-
-    e_name.delete(0, tk.END)
-    e_device.delete(0, tk.END)
-    e_issue.delete(0, tk.END)
-    e_due.delete(0, tk.END)
-
-    messagebox.showinfo("Success", "Order Added")
+    print("\nRepair order booked successfully!")
 
 
 def generate_bill():
-    try:
-        index = listbox.curselection()[0]
-        order = orders[index]
-    except:
-        messagebox.showerror("Error", "Select order")
+    if len(orders) == 0:
+        print("\nNo repair orders available.")
         return
 
-    try:
-        repair_fee = float(e_repair.get())
-        parts_cost = float(e_parts.get())
-        gst = float(e_gst.get())
-        discount = float(e_discount.get())
-    except:
-        messagebox.showerror("Error", "Enter valid numbers")
+    customer_name = input("Enter customer name: ")
+
+    for order in orders:
+        if order["customer"] == customer_name:
+            print("\nRepair Order Found")
+
+            repair_fee = float(input("Enter repair fee: "))
+            parts_cost = float(input("Enter parts replacement cost: "))
+
+            subtotal = repair_fee + parts_cost 
+            tax = subtotal * TAX_RATE
+            discount = float(input("Enter discount amount: "))
+
+            total = subtotal + tax - discount
+
+            print("Customer Name :", order["customer"])
+            print("Device Type   :", order["device"])
+            print("Issue         :", order["issue"])
+            print("Repair Fee    : ", repair_fee)
+            print("Parts Cost    : ", parts_cost)
+            print("Tax (18%)     : ", tax)
+            print("Discount      : ", discount)
+    
+            print("Total Amount  : ", total)
+            
+
+            order["status"] = "Completed"
+            return
+
+    print("\nCustomer not found!")
+
+
+def view_orders():
+    if len(orders) == 0:
+        print("\nNo orders to display.")
         return
 
-    subtotal = repair_fee + parts_cost
-    tax = subtotal * gst / 100
-    total = subtotal + tax - discount
-
-    bill = f"""
-Customer : {order['name']}
-Device   : {order['device']}
-Issue    : {order['issue']}
-
-Repair Fee : {repair_fee}
-Parts Cost : {parts_cost}
-GST%  : {tax}
-Discount  : {discount}
-
-Total     : {total}
-"""
-
-    messagebox.showinfo("Invoice", bill)
+    for i, order in enumerate(orders, start=1):
+        print(f"\nOrder {i}")
+        print("Customer:", order["customer"])
+        print("Device  :", order["device"])
+        print("Issue   :", order["issue"])
+        print("Due Date:", order["due_date"])
+        print("Status  :", order["status"])
 
 
-root = tk.Tk()
-root.title("FixTrack")
-root.geometry("400x550")
+def main_menu():
+    while True:
+        print("1. Book Repair Order")
+        print("2. Generate Bill")
+        print("3. View Repair Orders")
+        print("4. Exit")
 
-tk.Label(root, text="FixTrack Repair System", font=("Arial", 14)).pack(pady=10)
+        choice = input("Enter your choice (1-4): ")
 
-tk.Label(root, text="Customer Name").pack()
-e_name = tk.Entry(root)
-e_name.pack()
+        if choice == "1":
+            book_repair()
+        elif choice == "2":
+            generate_bill()
+        elif choice == "3":
+            view_orders()
+        elif choice == "4":
+            print("\nThank you for using FixTrack!")
+            break
+        else:
+            print("\nInvalid choice. Try again.")
 
-tk.Label(root, text="Device Type").pack()
-e_device = tk.Entry(root)
-e_device.pack()
-
-tk.Label(root, text="Issue").pack()
-e_issue = tk.Entry(root)
-e_issue.pack()
-
-tk.Label(root, text="Due Date").pack()
-e_due = tk.Entry(root)
-e_due.pack()
-
-tk.Button(root, text="Add Repair Order", command=add_order).pack(pady=8)
-
-tk.Label(root, text="Orders").pack()
-listbox = tk.Listbox(root, width=35)
-listbox.pack(pady=5)
-
-tk.Label(root, text="Repair Fee").pack()
-e_repair = tk.Entry(root)
-e_repair.pack()
-
-tk.Label(root, text="Parts Cost").pack()
-e_parts = tk.Entry(root)
-e_parts.pack()
-
-tk.Label(root, text="GST (%)").pack()
-e_gst = tk.Entry(root)
-e_gst.insert(0, str(GST))
-e_gst.pack()
-
-tk.Label(root, text="Discount").pack()
-e_discount = tk.Entry(root)
-e_discount.pack()
-
-tk.Button(root, text="Generate Bill", command=generate_bill).pack(pady=15)
-
-root.mainloop()
+main_menu()
