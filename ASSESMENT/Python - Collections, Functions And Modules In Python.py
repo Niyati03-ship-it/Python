@@ -94,4 +94,8 @@ def main_menu():
         else:
             print("\nInvalid choice. Try again.")
 
+<<<<<<< HEAD
 main_menu()
+=======
+main_menu()
+>>>>>>> 9f5567e2771dce079573896a57c739b5c74b1d31

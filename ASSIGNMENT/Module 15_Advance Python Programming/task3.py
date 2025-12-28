@@ -5,6 +5,5 @@ file = open("sample.txt", "w")
 file.write("This is a sample text written to the file.")
 file.close()
 
-print("Text written to the file successfully.")
 
 
