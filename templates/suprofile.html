@@ -1,0 +1,81 @@
+{% extends "sheader.html" %}
+{% load static %}
+{% block content%}
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <span class="breadcrumb-item active">update-profile</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    {% if msg %}
+    <div class="alert alert-danger" role="alert">
+       {{msg}}
+    </div>
+    {% endif %}
+
+    {% if msg1 %}
+    <div class="alert alert-danger" role="alert">
+       {{msg1}}
+    </div>
+    {% endif %}
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">update-profile</span></h2>
+        <div class="row px-xl-5">
+            <div class="col-lg-7 mb-5">
+                <div class="contact-form bg-light p-30">
+                    <div id="success"></div>
+                    <form method="POST" action="{% url 'suprofile' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="control-group">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
+                            value="{{user.name}}">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Your Email"
+                            value="{{user.email}}" readonly >
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <input type="tel"  class="form-control" name="mobile" id="mobile" placeholder="Your Mobile"
+                            value="{{user.mobile}}">
+                            <p class="help-block text-danger"></p>
+                        </div>
+
+                        <img src="{{user.profile.url}}" style="height: 100px;">
+                        
+                        <div class="control-group">
+                            <input type="file"  class="form-control" name="profile" id="email">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5 mb-5">
+                
+                
+                <div class="bg-light p-30 mb-3">
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+{% endblock %}
